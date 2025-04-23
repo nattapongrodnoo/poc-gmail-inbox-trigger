@@ -73,6 +73,8 @@ export const handlePubSubMessage: RequestHandler = async (req, res) => {
       historyTypes: ["messageAdded"],
     });
 
+    console.log("History response:", historyRes.data)
+
     if (!historyRes.data.history) {
       fs.writeFileSync(historyStorePath, JSON.stringify({ historyId }));
       res.status(200).send("No new messages");
@@ -140,7 +142,7 @@ export const handlePubSubMessage: RequestHandler = async (req, res) => {
     }
 
     // // // ✅ Update last known history ID after processing
-    // await fs.writeFileSync(historyStorePath, JSON.stringify({ historyId }));
+    await fs.writeFileSync(historyStorePath, JSON.stringify({ historyId }));
     res.status(200).send("Message processed");
     return;
   } catch (error) {
